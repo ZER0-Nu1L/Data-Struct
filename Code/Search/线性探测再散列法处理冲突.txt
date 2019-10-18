@@ -1,0 +1,38 @@
+#define M 100//表长
+
+int h(int k)
+{  return(k%97);
+}
+
+int slbxxcz(int t[],int k)//线性探测再散列查找
+{  int i,j=0;
+   i=h(k);
+   while((j<M)&&(t[(i+j)%M]!=k)&&(t[(i+j)%M]!=0))//这个部分查找是通用的！！每一部分都会用到，j<M是为防止死循环
+      j++;
+   i=(i+j)%M;
+   if(t[i]==k)  return(i);
+   else  return(-1);
+}
+
+int slbxxcr(int t[],int k)//线性探测再散列插入
+{  int i,j=0;
+   i=h(k);
+   while((j<M)&&(t[(i+j)%M]!=k)&&(t[(i+j)%M]>0))
+      j++;
+   if(j==M)  return(0);//表满,退出
+   i=(i+j)%M;
+   if(t[i]<=0)//i尚未使用，插入
+   {  t[i]=k;  return(1); }
+   if(t[i]==k) return(1);//表中已有该元素，防止重复
+}
+
+int slbxxsc(int t[],int k)//线性探测再散列删除
+{  int i,j=0;
+   i=h(k);
+   while((j<M)&&(t[(i+j)%M]!=k)&&(t[(i+j)%M]!=0))
+      j++;
+   i=(i+j)%M;
+   if(t[i]==k)
+   {   t[i]=-1; return(1); }
+   return(0);
+}

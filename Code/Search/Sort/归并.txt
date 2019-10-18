@@ -1,0 +1,15 @@
+void merge(JD r[],int h,int m,int w,JD t[])//将有序的r[h..m]和r[m+1..w]归并为有序的t[h..w]
+{  int i,j,k;
+   i=h; j=m+1; k=h-1;
+   while((i<=m)&&(j<=w))
+   {  k++;
+      if(r[i].key<=r[j].key)
+         t[k]=r[i++];
+      else
+         t[k]=r[j++];
+   }
+   if(i>m)
+      while(j<=w)  t[++k]=r[j++];
+   else
+      while(i<=m)  t[++k]=r[i++];
+}

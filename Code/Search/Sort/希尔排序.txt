@@ -1,0 +1,17 @@
+void shellsort(JD r[],int n,int d[T])
+{  int i,j,k;
+   JD x;
+   k=0;
+   while(k<T)
+   {  for(i=d[k]+1;i<=n;i++)
+      {  x=r[i];
+         j=i-d[k];
+         while((j>0)&&(x.key<r[j].key))
+         {  r[j+d[k]]=r[j];
+            j=j-d[k];
+         }
+         r[j+d[k]]=x;
+       }
+       k++;
+    }
+}

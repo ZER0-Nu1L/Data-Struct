@@ -1,0 +1,16 @@
+void binsort(JD r[],int n)//’€∞Î≤Â»Î≈≈–Ú
+{  int i,j,x,s,m,k;
+   for(i=2;i<=n;i++)
+   {  r[0]=r[i];
+      x=r[i].key;
+      s=1; j=i-1;
+      while(s<=j)//≤È’“≤Â»ÎŒª÷√
+      {  m=(s+j)/2;
+         if(x<r[m].key)  j=m-1;
+         else s=m+1;
+      }
+      for(k=i-1;k>=s;k--)//“∆∂Ø
+         r[k+1]=r[k];
+      r[s]=r[0];//≤Â»Î
+   }
+}

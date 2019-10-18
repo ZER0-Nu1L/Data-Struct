@@ -1,0 +1,15 @@
+int sift(JD r[],int k,int m)//已知r[k..m]是以r[k]为根的完全二叉树，以r[2k]和r[2k+1]为根的左、右子树是堆。要求：调整r[k]使r[k..m]为堆
+{  int i,j;
+   JD x;
+   i=k;  x=r[i]; j=2*i;
+   while(j<=m)
+   {  if((j<m)&&{r[j].key>r[j+1].key))  j++;//j保存较小的子树
+      if(x.key>r[j].key)//筛选
+      {  r[i]=r[j];
+         i=j;
+         j*=2;
+      }
+      else   j=m+1;
+   }
+   r[i]=x;
+}

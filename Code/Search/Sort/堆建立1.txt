@@ -1,0 +1,12 @@
+void heapsort(JD r[],int n)
+{  int i;
+   JD x;
+   for(i=n/2;i>=1;i--)//自第└ n/2┘开始筛选建堆
+      sift(r,i,n);
+   for(i=n;i>=2;i--)
+   {  x=r[1];//与最后一个元素交换
+      r[1]=r[i];
+      r[i]=x;
+      sift(r,1,i-1);
+   }
+}

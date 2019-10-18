@@ -1,0 +1,15 @@
+void qksort(JD r[],int t,int w)//t=low,w=high
+{  int i,j,k;
+   JD x;
+   if(t>=w)  return;
+   i=t; j=w; x=r[i];
+   while(i<j)
+   {  while((i<j)&&(r[j].key>=x.key))  j--;//枢轴后面的值大于枢轴
+      if(i<j) { r[i]=r[j]; i++; }//当不满足时，与枢轴交换
+      while((i<j)&&(r[i].key<=x.key))  i++;//枢轴前面的值小于枢轴
+      if(i<j) { r[j]=r[i]; j--; }//不满足，与枢轴交换
+   }
+   r[i]=x;
+   qksort(r,t,j-1);
+   qksort(r,j+1,w);
+}

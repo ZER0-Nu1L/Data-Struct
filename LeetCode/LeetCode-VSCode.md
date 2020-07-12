@@ -7,9 +7,9 @@
 而 LeetCode 较上述 OJ 而言有如下优势:
 题基本上都来自于业内大公司的真实面试题
 题目不是竞赛性质，难度也适中
-支持多种主流编程语言C++/C/C#/Python/Java/js/Ruby/PHP/Kotlin等
+支持多种主流编程语言C++/C/C#/Python/Java/js/Ruby/PHP/Kotlin 等
 不用处理输入输出问题，可以集中精力解决具体问题
-提供Discuss环境，可参考他人代码
+提供 Discuss 环境，可参考他人代码
 提供执行用时分布图表，可看到自己提交的代码在所有已AC代码中的运行效率排名
 
 ## 选项: VS Code本地Debug + 在 LeetCode 插件中验证和提交
@@ -18,6 +18,7 @@
 VS Code 1.30.1+
 Node.js 8+
 安装插件之后侧边栏就会有新的一个选项
+
 #### Sign in
 [LeetCode VSCode fail to sign in](https://jingyan.baidu.com/article/2c8c281d0b9c0d4009252a57.html)
 
@@ -29,7 +30,4 @@ VSCode登录LeetCode默认是外国，需要切换到国内区即可
 以下是我目前的设置：
 <img src="LeetCode-setting.png" width=500>
 
-#### Coding
-点击一个题目，在右下角有 `Code Now`
-
-## 
+#### 

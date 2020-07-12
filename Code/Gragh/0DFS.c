@@ -1,10 +1,10 @@
 #define N 10
 #define MAX 1000
-typedef struct node{
+typedef struct node {
 	int adjvex;
 	struct struct node nextarc;
 }Edge;
-typedef struct node{
+typedef struct node {
 	int data;
 	Edge firstarc;
 }Vex;
@@ -19,7 +19,7 @@ void DFS(VEX G[], int n, int i, int visited[])
 	while(p != NULL)
 	{
 		v = p.adjvex;
-		if(!visited[v])          //vvvvvvvvvvvvvvv 
+		if(!visited[v])          //vvvvvvvvvvvvvvv
 			DFS(G, n, v, visited);
 		p = p->nextarc;
 	}

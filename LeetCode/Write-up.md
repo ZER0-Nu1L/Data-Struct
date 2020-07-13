@@ -32,3 +32,73 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize){
 }
 ```
 
+# Write Up
+
+## 283.移动零.c
+
+思路1
+
+// 1. for, if zero, move
+
+```cpp
+void moveZeroes(int* nujs, int numsSize) {
+    for(int i = 0; i < numsSize; i++) {
+        if(nums[i] == 0) {
+            for(int j = i; j < numsSize-1; j++) {
+                nums[j] = nums[j+1]；
+            }
+            nums[numsSize-1] = 0;
+        }
+    }
+}
+```
+
+Submit 遇到问题：
+
+![image-20200713165532513](Write-up/image-20200713165532513.png)
+
+<font color="yellow">反思</font>：在脑海里动态地考虑这个问题
+
+如果改成：
+
+```cpp
+void moveZeroes(int* nujs, int numsSize) {
+    for(int i = 0; i < numsSize; i++) {
+        if(nums[i] == 0) {
+            for(int j = i; j < numsSize-1; j++) {
+                nums[j] = nums[j+1]；
+            }
+            nums[numsSize-1] = 0;
++           i--;
+        }
+    }
+}
+```
+
+遇到连续的 0 就会将进入死循环。
+
+// 不要抢救！换思路！
+
+```cpp
+void moveZeroes(int* nums, int numsSize) {
+    int num_0 = 0;
+    for(int i = 0; i < numsSize; i++) {
+        if(nums[i] == 0) {
+            num_0++;
+        }
+    }
+    for(int i = 0; i < numsSize; i++) {
+        if(num_0 == 0)
+            break;
+        if(nums[i] == 0) {
+            for(int j = i; j < numsSize - 1; j++) {
+                nums[j] = nums[j+1];
+            }
+            i--;
+            nums[numsSize-1]=0;
+            num_0 --;
+        }
+    }
+}
+```
+

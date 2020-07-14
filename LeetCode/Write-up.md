@@ -102,3 +102,66 @@ void moveZeroes(int* nums, int numsSize) {
 }
 ```
 
+
+# 26.删除排序数组中的重复项
+// 1. for i for j  if == move? 
+// 优化：对重复个数进行计数——一次性移动
+```Cpp
+int removeDuplicates(int* nums, int numsSize)
+{
+    int time = 0;
+    for(int i = 0; i < numsSize - 1; i++) {
+        time = 1;   //代表一个元素出现的次数
+        for(int j = i+1; j < numsSize; j++) {
+            if(nums[i] == nums[j]) {
+                time++;
+            } else {
+                break;
+            }
+        }
+        // time 次出现，需要移动 time-1 格，~~移动次数 = 后面的个数 = numsSize-i-time-1~~
+        if(time > 1) {
+            // numsSize = xxx + j + time - 1
+            for(int j = i+1; j < numsSize-time+1; j++) {
+                nums[j] = nums[j+time-1];
+            }
+        }
+        numsSize = numsSize - time + 1;
+    }
+    return numsSize;
+}
+```
+
+官方题解：双指针法
+```cpp
+int removeDuplicates(int* nums, int numsSize)
+{
+    if (numsSize == 0) return 0;
+    int i = 0;
+    for(int j = 1; j < numsSize; j++) {
+        if(nums[j] != nums[i]) {
+            i++;
+            nums[i] = nums[j];            
+        }
+    }
+    return (i+1);
+}
+```
+用 j 带动 i 移动，厉害的！
+
+```cpp
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.empty()) return 0;  // 注意这个处理! nums.empty() 好用啊
+        int i = 0;
+        for(int j = 1; j < nums.size(); j++) {
+            if(nums[i] != nums[j]) {
+                nums[i+1] = nums[j];
+                i++;
+            }
+        }
+        return i+1;
+    }
+};
+```

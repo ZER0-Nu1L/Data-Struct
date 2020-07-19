@@ -34,6 +34,128 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize){
 
 # Write Up
 
+## 1. 两数之和
+
+### 暴力
+
+时间复杂度：$O(n^2)$， 空间复杂度 $O(1)$。
+
+```cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> result;
+        for(int i = 0; i < nums.size()-1; i++) {
+            for(int j = i+1; j < nums.size(); j++) {
+                if(nums[i] + nums[j] == target) {
+                    result.push_back(i);
+                    result.push_back(j);
+                    return result;
+                }
+            }
+        }
+        return result;
+    }
+};
+```
+
+### 两遍哈希
+
+一种更有效的方法来检查数组中是否存在目标元素。如果存在，我们需要找出它的索引。保持数组中的每个元素与其索引相互对应的最好方法是什么？哈希表。
+
+以空间换取速度。
+
+时间复杂度：$O(n)$， 空间复杂度 $O(n)$。
+
+第一次迭代中，我们将每个元素的值和它的索引添加到表中。
+
+在第二次迭代中，我们将检查每个元素所对应的目标元素  $target - nums[i]$是否存在于表中。:warning: 注意，该目标元素不能是 nums[i] 本身！
+
+没有考虑就会出现：
+
+<img src="Write-up/image-20200717010328879.png" alt="image-20200717010328879" style="zoom:67%;" />
+
+```cpp
+#include <map>
+#include <vector>
+using namespace std;
+class Solution {
+public:
+    vector<int> result;
+    vector<int> twoSum(vector<int>& nums, int target) {
+        map<int, int> HashMap;
+        // 1. set up HashMap
+        for(int i = 0; i < nums.size(); i++) {
+            HashMap[nums[i]] = i;
+        }
+        // 2. find
+        for(int i = 0; i < nums.size(); i++) {
+            if(HashMap.count(target-nums[i])>0 && i != HashMap[target-nums[i]]) {
+                result.push_back(i);
+                result.push_back(HashMap[target - nums[i]]);
+                return result;
+            }
+        }
+        return result;
+    }
+};
+```
+
+p.s. map 查找不到对应的键的表示方法：
+
+1. find 的返回迭代器为空，注意不是 null。
+
+   map中有一个函数叫 end()，这个函数默认指向 map 中最后一个元素的后一个位置，由此可以理解为空。
+
+   所以，如果非要对 iterator 进行初始化的话，可以将 iterator 指向 end() 函数即可。判断是否为空即与end() 函数做比较即可。
+
+   ```cpp
+   map<int, int> Map01;
+   map<int, int>::iterator Map_it = Map01.end();
+   Map_it.find(num)
+   if (it != mymap.end())
+       //...
+   ```
+
+2. 在 LeetCode 的题解中找到更有趣更简练的方法：
+
+   ```cpp
+   map<int, int> Map01;
+   if( Map01.count(num) > 0)
+       //..
+   ```
+
+### 一遍哈希
+
+实证明，我们可以一次完成。在进行迭代并将元素插入到表中的同时，我们还会回过头来检查表中是否已经存在当前元素所对应的目标元素。如果它存在，那我们已经找到了对应解，并立即将其返回。
+
+```cpp
+#include <map>
+#include <vector>
+using namespace std;
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> result;
+        map<int, int> HashMap;
+        for(int i = 0; i < nums.size(); i++) {
+            if(HashMap.count(target-nums[i]) > 0) { // 条件少了一个
+↑               result.push_back(HashMap[target-nums[i]]);
+↓               result.push_back(i); // 注意调换顺序！
+                return result;
+            }
+↕           HashMap[nums[i]] = i;
+        }
+        return result;
+    }
+};
+```
+
+> 作者：LeetCode
+> 链接：https://leetcode-cn.com/problems/two-sum/solution/liang-shu-zhi-he-by-leetcode-2/
+> 来源：力扣（LeetCode）
+> 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 ## 283.移动零.c
 
 思路1
@@ -103,7 +225,7 @@ void moveZeroes(int* nums, int numsSize) {
 ```
 
 
-# 26.删除排序数组中的重复项
+## 26.删除排序数组中的重复项
 // 1. for i for j  if == move? 
 // 优化：对重复个数进行计数——一次性移动
 ```Cpp

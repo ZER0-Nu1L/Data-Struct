@@ -60,15 +60,26 @@
 
 int removeDuplicates(int* nums, int numsSize)
 {
-    if (numsSize = 0) return 0;
-    int i = 0;
-    for(int j = 1; j < numsSize; j++) {
-        if(nums[i] != nums[j]) {
-            nums[i+1] = nums[j];
-            i++;
+    int time = 0;
+    for(int i = 0; i < numsSize - 1; i++) {
+        time = 1;   //代表一个元素出现的次数
+        for(int j = i+1; j < numsSize; j++) {
+            if(nums[i] == nums[j]) {
+                time++;
+            } else {
+                break;
+            }
         }
+        // time 次出现，需要移动 time-1 格，~~移动次数 = 后面的个数 = numsSize-i-time-1~~
+        if(time > 1) {
+            // numsSize = xxx + j + time - 1
+            for(int j = i+1; j < numsSize-time+1; j++) {
+                nums[j] = nums[j+time-1];
+            }
+        }
+        numsSize = numsSize - time + 1;
     }
-    return i+1;
+    return numsSize;
 }
 
 

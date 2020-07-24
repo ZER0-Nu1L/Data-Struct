@@ -8,8 +8,8 @@
 解决办法有以下三种:
 
 1. 返回的指针使用 malloc 分配空间（推荐）
-2. 将该变量使用 static 修饰 static 修饰的内部变量作用域不变 但是声明周期延长到程序结束 即该变量在函数退出后仍然存在；
-3. 使用全局变量（不推荐）
+1. 将该变量使用 static 修饰 static 修饰的内部变量作用域不变 但是声明周期延长到程序结束 即该变量在函数退出后仍然存在；
+1. 使用全局变量（不推荐）
 
 ```C
 /**
@@ -117,7 +117,7 @@ p.s. map 查找不到对应的键的表示方法：
        //...
    ```
 
-2. 在 LeetCode 的题解中找到更有趣更简练的方法：
+1. 在 LeetCode 的题解中找到更有趣更简练的方法：
 
    ```cpp
    map<int, int> Map01;
@@ -226,8 +226,10 @@ void moveZeroes(int* nums, int numsSize) {
 
 
 ## 26.删除排序数组中的重复项
+
 // 1. for i for j  if == move? 
 // 优化：对重复个数进行计数——一次性移动
+
 ```Cpp
 int removeDuplicates(int* nums, int numsSize)
 {
@@ -255,6 +257,7 @@ int removeDuplicates(int* nums, int numsSize)
 ```
 
 官方题解：双指针法
+
 ```cpp
 int removeDuplicates(int* nums, int numsSize)
 {
@@ -269,6 +272,7 @@ int removeDuplicates(int* nums, int numsSize)
     return (i+1);
 }
 ```
+
 用 j 带动 i 移动，厉害的！
 
 ```cpp
@@ -287,3 +291,230 @@ public:
     }
 };
 ```
+
+## 94+144+145 树的遍历
+
+### 递归
+
+####  前序
+
+```cpp
+class Solution {
+public:
+    vector<int> res;
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(root) {
+            res.push_back(root->val);
+            preorderTraversal(root->left);
+            preorderTraversal(root->right);
+        }
+        return res;
+    }
+
+};
+```
+
+#### 中序
+
+```cpp
+class Solution {
+public:
+    vector<int> res;
+    vector<int> inorderTraversal(TreeNode* root) {
+        if(root) {
+            inorderTraversal(root->left);
+            res.push_back(root->val);
+            inorderTraversal(root->right);
+        }
+        return res;
+    }
+};
+```
+
+#### 后序
+
+```cpp
+class Solution {
+public:
+    vector<int> result;
+    vector<int> postorderTraversal(TreeNode* root) {
+        if(root) {
+            postorderTraversal(root->left);
+            postorderTraversal(root->right);
+            result.push_back(root->val);
+        }
+        return result;
+    }
+};
+```
+
+### 迭代解法
+
+本质上是在模拟递归，因为在递归的过程中使用了系统栈，所以在迭代的解法中常用`Stack`来模拟系统栈。
+
+#### 前序
+
+迭代法一：
+
+1. **为什么要用栈？**
+   因为存在左右子树，访问所有结点要分别实现对两个子树的访问，所以先进后出的特点（比如根结点）。
+   实际使用的时候：<u>第一次访问到的时候，入栈， 然后访问左子树；之后退栈，访问右子树。</u>
+1. **循环条件：`while(p != NULL || !IsEmpty(S))`**
+   意味着还有没有访问完的结点，要么还在栈中，要么现在正在指着；
+   - 当前指向一个非空结点，继续开发它的左子树；
+   - 在栈中而当前还指向为空（左子树开发完了），则退栈，访问右子树；
+   - 如果都不满足，说明遍历完毕。
+
+```cpp
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        while(!st.empty() || root) {
+            if(root) {
+                result.push_back(root->val);
+                st.push(root);
+                root = root->left;
+            } else {
+                root = st.top();
+                st.pop();
+                root = root->right;
+            }
+        }
+        return result;
+    }
+};
+```
+
+迭代法二：
+
+1. **为什么要用栈？**
+
+   还是因为存在左右子树，访问所有结点要分别实现对两个子树的访问，所以先进后出的特点（比如根结点）。
+   但是相比于迭代法一，实际使用的是，栈不是用来保存之前的状态，而是将所有的结点都压进栈，然后 pop 出的顺序即为遍历的顺序。
+
+   前序遍历是：中左右；对应我们只需按“中    右 左”压栈即可。
+
+   <font color="yellow">所以这里栈的意义是遍历的结点。</font>
+
+   ![中序遍历流程图](https://pic.leetcode-cn.com/6233a9685447d0b4d7b513f739151ca065e5697e24070bcafc1ee5d28f9155a6.png)
+
+2. 结束条件即没有结点可以遍历
+
+```cpp
+#include <vector>
+#include <stack>
+using namespace std;
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        if(!root) return result;
+
+        stack<TreeNode*> st;
+        st.push(root);
+        while(!st.empty()) {
+            root = st.top();
+            result.push_back(root->val);
+            st.pop();
+            if(root->right) st.push(root->right);
+            if(root->left)  st.push(root->left);
+        }
+        return result;
+    }
+};
+```
+
+#### 中序遍历
+
+用的是前序遍历迭代一的方法，但是输出的时间要注意变化。
+
+```cpp
+class Solution {
+public:
+    vector<int> res;
+    vector<int> inorderTraversal(TreeNode* root) {
+        if(root) {
+            inorderTraversal(root->left);
+            res.push_back(root->val);
+            inorderTraversal(root->right);
+        }
+        return res;
+    }
+};
+```
+
+#### 后序遍历
+
+迭代法一：
+
+后序遍历的过程是 左右中
+
+1. 前序遍历的过程 是 中左右。
+1. 将后序遍历转化成 中右左。也就是压栈的过程中优先压入左子树，在压入右子树。<u>（可以回看前序迭代遍历二的图解）</u>
+1. 然后将这个结果返回来，这里是利用栈的先进后出倒序打印。
+
+```cpp
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        if (!root) return result;
+
+        stack<TreeNode*> st;
+        stack<int> res_inv;
+        st.push(root);
+        while(!st.empty()) {
+            root = st.top();
+            res_inv.push(root->val);
+            st.pop();
+            if(root->left) st.push(root->left);
+            if(root->right) st.push(root->right);
+        }
+        while(!res_inv.empty()) {
+            result.push_back(res_inv.top());
+            res_inv.pop();
+        }
+        return result;
+    }
+};
+```
+
+迭代法二：
+
+栈依然是保存的遍历结点（前序迭代遍历2的思想）
+
+1. 需要一个 last 指针，指向它上次退栈的时候退出的那个结点
+   有如下三种情况是遍历完了左右子树，之后可以 `pop()` 并 `result.push_back()`：
+   <img src="Write-up/image-20200724174328379.png" alt="image-20200724174328379" style="zoom:80%;" />
+
+```cpp
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        if(!root) return result;
+
+        stack<TreeNode*> st;
+        TreeNode* last = root;
+        st.push(root);
+        while(!st.empty()) {
+            root = st.top();
+            if(root->left && root->left!=last && root->right!=last) {
+                st.push(root->left);
+            }
+            else if(root->right && root->right!=last) {
+                st.push(root->right); // 注意是 else if
+            }
+            else {
+                result.push_back(root->val);
+                st.pop();
+                last = root;
+            }
+        }
+        return result;
+    }
+};
+```
+

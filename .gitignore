@@ -63,3 +63,7 @@ School
 *.pdf
 *.doc
 *.docx
+
+# other
+.history
+.vscode

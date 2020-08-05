@@ -47,18 +47,20 @@ using namespace std;
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-        if(!root) return;
         vector<int> result;
+        if(!root) return result;
+
         stack<TreeNode*> st;
         st.push(root);
         while(!st.empty()) {
-            root = st.top()
-            result.push_back(st.top());
+            root = st.top();
+            result.push_back(root->val);
             st.pop();
             if(root->right) st.push(root->right);
-            if(root->left) st.push(root->left);
+            if(root->left)  st.push(root->left);
         }
+        return result;
     }
-}
+};
 // @lc code=end
 

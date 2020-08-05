@@ -50,18 +50,18 @@ public:
         if (!root) return result;
 
         stack<TreeNode*> st;
-        stack<TreeNode*> st_inv;
+        stack<int> res_inv;
         st.push(root);
         while(!st.empty()) {
             root = st.top();
-            st_inv.push(root->val);
+            res_inv.push(root->val);
             st.pop();
             if(root->left) st.push(root->left);
             if(root->right) st.push(root->right);
         }
-        while(!st_inv.empty()) {
-            result.push_back(st_inv.top());
-            st_inv.pop();
+        while(!res_inv.empty()) {
+            result.push_back(res_inv.top());
+            res_inv.pop();
         }
         return result;
     }

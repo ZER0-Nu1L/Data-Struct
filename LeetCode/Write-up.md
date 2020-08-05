@@ -32,6 +32,10 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize){
 }
 ```
 
+## error: control may reach end of non-void function [-Werror,-Wreturn-type] }
+
+错误原因：本该返回值的函数未返回值。此时，应该检查一下是否每个控制流都有返回值。
+
 # Write Up
 
 ## 1. 两数之和
@@ -518,3 +522,169 @@ public:
 };
 ```
 
+
+
+
+
+---
+
+# 其他模板
+
+## 查找
+
+### 二分查找
+
+```cpp
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int left = 0, right = nums.size()-1;
+        while(left <= right) {
+            int mid = ((right-left)>>1) + left;
+            if(target == nums[mid]) return mid;
+            else if(target < nums[mid])
+                right = mid -1;
+            else
+                left = mid + 1;
+        }
+        return left;
+    }
+};
+```
+
+ans - answer
+
+`>>` 是右移运算，在计算机中是*一*种运算操作，但是他的运算结果正好能对应*一*个整数的二分之*一*值，这就正好能代替数学上的除2运算，但是比除2运算要快。
+
+`((right - left) >> 1) + left` 还能防止溢出；
+
+如果没有找到，则 $target \in [ right, left]$。
+
+```cpp
+return lower_bound(nums.begin(),nums.end(),target) - nums.begin();
+```
+
+---
+
+# 常用函数
+
+## Sort 用法
+
+> 1、sort函数可以三个参数也可以两个参数，必须的头文件#include < algorithm>和using namespace std;
+> 2、它使用的排序方法是类似于快排的方法，时间复杂度为n*log2(n)
+>
+> 3、Sort函数有三个参数：（第三个参数可不写）
+>
+> （1）第一个是要排序的数组的起始地址。
+>
+> （2）第二个是结束的地址（最后一位要排序的地址）
+>
+> （3）第三个参数是排序的方法，可以是从大到小也可是从小到大，还可以不写第三个参数，此时默认的排序方法是从小到大排序。
+
+### 两个参数用法
+
+```cpp
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int main(void)
+{
+	int a[20]={2,4,1,23,5,76,0,43,24,65}, i;
+	for(i = 0; i < 20; i++)
+		cout<<a[i]<<endl;
+	sort(a, a+20);
+	for(i = 0; i < 20; i++)
+		cout<<a[i]<<endl;
+	return 0;
+}
+```
+
+> 输出结果是升序排列。（两个参数的sort默认升序排序）
+
+### 三个参数
+
+```cpp
+// sort algorithm example
+#include <iostream>     // std::cout
+#include <algorithm>    // std::sort
+#include <vector>       // std::vector
+bool myfunction (int i,int j) {
+	return (i<j);
+}
+//升序排列
+bool myfunction2 (int i,int j) {
+	return (i>j);
+}
+//降序排列
+struct myclass {
+	bool operator() (int i,int j) {
+		return (i<j);
+	}
+}
+myobject;
+int main () {
+	int myints[8] = {
+		32,71,12,45,26,80,53,33
+	}
+	;
+	vector<int> myvector (myints, myints+8);
+	// 32 71 12 45 26 80 53 33
+	// using default comparison (operator <):
+	sort (myvector.begin(), myvector.begin()+4);
+	//(12 32 45 71)26 80 53 33
+	// using function as comp
+	sort (myvector.begin()+4, myvector.end(), myfunction);
+	// 12 32 45 71(26 33 53 80)
+	//std::sort (myints,myints+8,myfunction);不用vector的用法
+	// using object as comp
+	sort (myvector.begin(), myvector.end(), myobject);
+	//(12 26 32 33 45 53 71 80)
+	// print out content:
+	cout << "myvector contains:";
+	for (std::vector<int>::iterator it=myvector.begin(); it!=myvector.end(); ++it)//输出
+	cout << ' ' << *it;
+	cout << '\n';
+	return 0;
+}
+```
+
+------
+
+### string 使用反向迭代器来完成逆序排列
+
+```cpp
+#include <iostream>
+using namespace std;
+int main()
+{
+     string str("cvicses");
+     string s(str.rbegin(),str.rend());
+     cout << s <<endl;
+     return 0;
+}
+//输出：sescivc
+```
+
+https://blog.csdn.net/w_linux/article/details/76222112
+
+
+
+
+
+---
+
+
+
+ hash_map
+
+map
+
+
+
+vector<> 二维的操作方法
+
+C++ 编译等基础知识
+
+输入的处理
+
+[C++数组求和用自带的库超级方便](https://blog.csdn.net/u011394598/article/details/81075988)

@@ -5,6 +5,9 @@
         "stack": "cpp",
         "deque": "cpp",
         "vector": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "initializer_list": "cpp",
+        "xutility": "cpp",
+        "algorithm": "cpp"
     }
 }

@@ -34,8 +34,21 @@
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        
+        // 1. special
+        if(intervals.size() == 0)  return {};
+        // 2. Sort
+        sort(intervals.begin(), intervals.end());
+        vector<vector<int>> merged;
+        // 3. merge
+        for(int i = 0; i < intervals.size(); i++) {
+            int L = intervals[i][0], R = intervals[i][1];
+            if(!merged.size() || L > merged.back()[1]) {
+                merged.push_back({L,R});
+            } else {
+                merged.back()[1] = max(merged.back()[1], R);
+            }
+        }
+        return merged;
     }
 };
 // @lc code=end
-

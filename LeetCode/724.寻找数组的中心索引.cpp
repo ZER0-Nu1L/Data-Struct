@@ -78,4 +78,16 @@ public:
     2. for(i) ; 1)(sum - nums[i])%2 == 0  2)sum(1, i) == sum(i+1, n)
     O(n+n^2) = O(n^2)
 2. 保存过程计算的 sum，避免重复
+
+边界情况
+[-1,-1,-1,0,1,1]
+-1
+or
+[-1,-1,0,1,1,10]
+        int sum = nums[0], i = 1;
+        for(; i < nums.size()-1; i++) {
+            ↓↓↓↓
+        int sum = 0;
+        for(int i = 0; i < nums.size(); i++) {
+其实这里的题意也有点问题
 */

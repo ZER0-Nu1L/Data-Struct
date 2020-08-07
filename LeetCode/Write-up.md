@@ -548,6 +548,102 @@ public:
 };
 ```
 
+## [48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
+
+### 1.旋转的数学表达
+
+![image-20200807000022223](Write-up/image-20200807000022223.png)
+
+### 2.交换方法
+
+![image-20200807000414895](Write-up/image-20200807000414895.png)
+
+### 3. “第一象限”分奇偶数
+
+![image-20200807000441184](Write-up/image-20200807000441184.png)
+
+
+
+## [27. 移除元素](https://leetcode-cn.com/problems/remove-element/)
+
+下面的循环是有问题的，因为 `nums[i] = nums[n-1];` 之后，`nums[i]` 依然可能是 val，所以用 while 更方便控制。
+
+```cpp
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int n = nums.size();
+        for(int i = 0; i < n; i++) {
+            if(nums[i] == val) {
+                nums[i] = nums[n-1];
+                n--;
+            }
+        }
+        return n;
+    }
+};
+```
+
+这里的双指针就很优雅了。
+
+```cpp
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int n = nums.size();
+        int i = 0;
+        while(i<n) {
+            if(nums[i] == val) {
+                nums[i] = nums[n-1];
+                n--;
+            } else {
+                i++;
+            }
+        }
+        return n;
+    }
+};
+```
+
+## [485. 最大连续1的个数](https://leetcode-cn.com/problems/max-consecutive-ones/)
+
+这里考虑的情况有
+
+1. []
+1. [0, ..., 1, 1, 1, 0, ... 0]
+1. [..., 1,1]
+
+```cpp
+class Solution {
+public:
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int j = 0, i = 0;
+        int flag = 0;
+        int sum = 0;
+        // 1. specail
+        if(!nums.size()) return 0;
+        // 2. mark and sum
+        for(; j < nums.size(); j++) {
+            if(nums[j] == 1) {
+                if(!flag) {
+                    i = j;
+                    flag = 1;
+                }
+            } else if( nums[j] != 1 && flag) {
+                sum = max(sum, j-i);
+                flag = 0;
+            }
+        }
+        if(flag) sum = max(sum, j-i);
+        return sum;
+    }
+};
+```
+
+其中 `if(flag) sum = max(sum, j-i);` 是补充处理第三种
+
+flag 代表当前进入 mark 模式
+
 
 
 ---

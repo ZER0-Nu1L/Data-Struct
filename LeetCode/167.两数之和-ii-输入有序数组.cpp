@@ -61,5 +61,5 @@ public:
 1. HashMap O(n), O(n)
 2. double pointer O(n)
     index + 1 
-    应该不会提供重复元素？
+    应该不会提供重复元素？ √ —— 升序
 */

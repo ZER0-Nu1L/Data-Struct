@@ -42,7 +42,7 @@ public:
         int sum = 0;
         int len = nums.size()+1, i = 0, j = 0;
         while(j < nums.size()) {
-            while(sum < s && j < nums.size()) {
+            while(sum < s && j < nums.size()) { // 避免
                 sum += nums[j];
                 j++;
             }
